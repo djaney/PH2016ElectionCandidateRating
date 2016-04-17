@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title>PH Pressidential Candidate's Pros and Cons</title>
+
+        <!-- Bootstrap -->
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body ng-app="app" ng-controller="MainController">
+        <div class="container-fluid ng-cloak" ng-show="dataReady">
+            <h1>Rate the presidential candidate's pros and cons</h1>
+            <div class="row">
+                <div ng-class="leaderboardClass()" >
+                    <ul class="list-group">
+                        <li class="list-group-item" ng-repeat="c in candidatesArray | orderBy: '-rate'" ng-show="c.rate">
+                            {{c.name}}
+                            <span class="badge">{{c.rate | number : 1}}</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-8" ng-if="!isAllRated()">
+                    <ul class="nav nav-tabs">
+                        <li ng-repeat="(k,c) in candidates" role="presentation" ng-class="{'active':activeCandidateRate==c}" ng-show="!isCandidateRated(k)">
+                            <a href ng-click="setActiveCandidateRate(c)">{{c.name}}</a>
+                        </li>
+                    </ul>
+                    <div class="" ng-show="isCandidateRated(cKey)">
+                        <h3><em>Thanks for rating!</em></h3>
+                    </div>
+                    <div ng-repeat="(cKey,c) in candidates" ng-show="activeCandidateRate==c && !isCandidateRated(cKey)">
+                        <p></p>
+                        <p class="text-right">
+                            <button type="button" class="btn btn-primary" ng-click="rateCandidate(c,cKey)">Continue</button>
+                        </p>
+
+                        <table class="table table-bordered">
+                            <tr>
+                                <th colspan="2">
+                                    Platform
+                                </th>
+                            </tr>
+                            <tr ng-repeat="(platformKey,item) in c.platform">
+                                <td>
+                                    {{item}}
+                                </td>
+                                <td>
+                                    <select ng-model="c.platformRate[item]" class="form-control input-sm"
+                                    ng-options="opts as opts.label for opts in ratingOptions"
+                                    >
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table class="table table-bordered">
+                            <tr>
+                                <th colspan="2">
+                                    General
+                                </th>
+                            </tr>
+                            <tr ng-repeat="(key,item) in c.general">
+                                <td>
+                                    {{item}}
+                                </td>
+                                <td>
+                                    <select ng-model="c.generalRate[item]" class="form-control input-sm"
+                                    ng-options="opts as opts.label for opts in ratingOptions"
+                                    >
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                        <p class="text-right">
+                            <button type="button" class="btn btn-primary" ng-click="rateCandidate(c,cKey)">Continue</button>
+                        </p>
+                    </div>
+                    <div ng-show="activeCandidateRate==null">
+                        <h3><em>Select a candidate to rate</em></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+        <script type="text/javascript" src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+        <script src="https://cdn.firebase.com/libs/angularfire/1.2.0/angularfire.min.js"></script>
+        <script type="text/javascript" src="js/app.js"></script>
+        <script type="text/javascript" src="js/data.js"></script>
+    </body>
+</html>
