@@ -44,9 +44,18 @@
                     </div>
                     <div ng-repeat="(cKey,c) in candidates" ng-show="activeCandidateRate==c && !isCandidateRated(cKey)">
                         <p></p>
-                        <p class="text-right">
-                            <button type="button" class="btn btn-primary" ng-click="rateCandidate(c,cKey)">Continue</button>
-                        </p>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <p class="text-left">
+                                    Rate according to how you trust that they can keep their promise
+                                </p>
+                            </div>
+                            <div class="col-sm-6">
+                                <p class="text-right">
+                                    <button type="button" class="btn btn-primary" ng-click="rateCandidate(c,cKey)">Continue</button>
+                                </p>
+                            </div>
+                        </div>
 
                         <table class="table table-bordered">
                             <tr>
